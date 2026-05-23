@@ -21,18 +21,19 @@ import androidx.navigation.compose.rememberNavController
 import com.mmfsin.streetparking.R
 import com.mmfsin.streetparking.presentation.core.components.StatusBarColor
 import com.mmfsin.streetparking.presentation.home.HomeScreen
-import com.mmfsin.streetparking.presentation.utils.BN_AUX_2
+import com.mmfsin.streetparking.presentation.map.MapScreen
 import com.mmfsin.streetparking.presentation.utils.BN_AUX_3
 import com.mmfsin.streetparking.presentation.utils.BN_HOME_ID
+import com.mmfsin.streetparking.presentation.utils.BN_MAP
 
 @Composable
 fun NavigationWrapper() {
     val navController = rememberNavController()
 
     val bottomNavItems = listOf(
-        BottomNavItem(id = BN_HOME_ID, name = stringResource(R.string.bottom_nav_home), icon = painterResource(R.drawable.ic_launcher_background)),
-        BottomNavItem(id = BN_AUX_2, name = stringResource(R.string.bottom_nav_aux2), icon = painterResource(R.drawable.ic_launcher_background)),
-        BottomNavItem(id = BN_AUX_3, name = stringResource(R.string.bottom_nav_aux3), icon = painterResource(R.drawable.ic_launcher_background)),
+        BottomNavItem(id = BN_HOME_ID, name = stringResource(R.string.bottom_nav_home), icon = painterResource(R.drawable.ic_parking)),
+        BottomNavItem(id = BN_MAP, name = stringResource(R.string.bottom_nav_aux2), icon = painterResource(R.drawable.ic_map_spot)),
+        BottomNavItem(id = BN_AUX_3, name = stringResource(R.string.bottom_nav_aux3), icon = painterResource(R.drawable.ic_map_spot)),
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -68,7 +69,7 @@ fun NavigationWrapper() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = BN_HOME_ID) { HomeScreen() }
-            composable(route = BN_AUX_2) { HomeScreen() }
+            composable(route = BN_MAP) { MapScreen() }
             composable(route = BN_AUX_3) { HomeScreen() }
         }
     }

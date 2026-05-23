@@ -71,11 +71,11 @@ dependencies {
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.compiler)
 
-    //    /** Firebase */
-    //    implementation(platform(libs.firebase.bom))
-    //    implementation(libs.firebase.analytics)
-    //    implementation(libs.firebase.database)
-    //    implementation(libs.firebase.firestore)
+    /** Firebase */
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore)
 
     //    /** Google SingIn */
     //    implementation(libs.play.services.auth)
@@ -84,6 +84,10 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+
+    /** Google Maps */
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
 
     /** Testing */
     androidTestImplementation(libs.androidx.junit)

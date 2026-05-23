@@ -7,6 +7,6 @@
 
     <!-- BOTTOM NAV -->
     <string name="bottom_nav_home">Home</string>
-    <string name="bottom_nav_aux2">Aux 2</string>
+    <string name="bottom_nav_aux2">Mapa</string>
     <string name="bottom_nav_aux3">Aux 3</string>
 </resources>
