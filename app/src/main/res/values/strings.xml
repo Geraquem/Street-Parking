@@ -9,4 +9,9 @@
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_aux2">Mapa</string>
     <string name="bottom_nav_aux3">Aux 3</string>
+
+    <!-- PERMISSIONS ERROR -->
+    <string name="permission_error_description">Para poder abrir el mapa necesitas tener activado el permiso de ubicación.</string>
+    <string name="permission_error_button">Ajustes de la aplicación</string>
+
 </resources>

@@ -21,7 +21,7 @@ fun SpotItemPV() {
 fun SpotItem() {
     Box(modifier = Modifier.fillMaxWidth().background(White)) {
         Column() {
-            MediumText(R.string.app_name)
+            MediumText(text = R.string.app_name)
         }
     }
 }

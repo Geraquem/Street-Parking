@@ -1,5 +1,6 @@
 package com.mmfsin.streetparking.presentation.map
 
 data class MapStates(
-    val myLocation: String = ""
+    val hasLocationPermission: Boolean? = null,
+    val userLocation: String? = null
 )
