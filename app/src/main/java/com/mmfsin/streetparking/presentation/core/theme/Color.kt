@@ -34,6 +34,7 @@ val YellowLight = Color(0xFFFFFBCE)
 val YellowMedium = Color(0xFFF5ED9D)
 val YellowHard = Color(0xFFEFD62A)
 
+val BlueTransparent = Color(0x6695B7EE)
 val BlueLight = Color(0xFF84ADEE)
 val BlueMedium = Color(0xFF4B87E7)
 val BlueHard = Color(0xFF0449BF)

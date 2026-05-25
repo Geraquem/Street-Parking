@@ -8,4 +8,9 @@ class ConfigRepository @Inject constructor(
     val sharedPrefs: SharedPrefs
 ) : IConfigRepository {
 
+    override fun getRadius(): Double = sharedPrefs.getRadius()?.toDouble() ?: 1000.0
+
+    override fun updateRadius(newRadius: Double) {
+        sharedPrefs.updateRadius(newRadius.toString())
+    }
 }

@@ -13,5 +13,18 @@
     <!-- PERMISSIONS ERROR -->
     <string name="permission_error_description">Para poder abrir el mapa necesitas tener activado el permiso de ubicación.</string>
     <string name="permission_error_button">Ajustes de la aplicación</string>
+    <string name="permission_needed">Es necesario tener la ubicación activada para ver tu posición y encontrar sitios cercanos.</string>
+
+    <!-- RADIUS -->
+    <string name="radius_dialog_search">Búsqueda:</string>
+    <string name="radius_dialog_title">Radio de búsqueda:</string>
+    <string name="radius_250_m">250 metros</string>
+    <string name="radius_500_m">500 metros</string>
+    <string name="radius_750_m">750 metros</string>
+    <string name="radius_1_km">1 kilómetro</string>
+    <string name="radius_1_5_km">1,5 kilómetros</string>
+    <string name="radius_2_km">2 kilómetros</string>
+    <string name="radius_2_5_km">2,5 kilómetros</string>
+    <string name="radius_3_km">3 kilómetros</string>
 
 </resources>

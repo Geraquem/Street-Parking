@@ -20,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mmfsin.streetparking.R
 import com.mmfsin.streetparking.presentation.core.components.StatusBarColor
+import com.mmfsin.streetparking.presentation.core.components.Toolbar
 import com.mmfsin.streetparking.presentation.home.HomeScreen
 import com.mmfsin.streetparking.presentation.map.MapScreen
 import com.mmfsin.streetparking.presentation.utils.BN_AUX_3
@@ -41,6 +42,7 @@ fun NavigationWrapper() {
 
     StatusBarColor()
     Scaffold(
+        topBar = { Toolbar(text = R.string.app_name, iconBackVisible = false) },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 bottomNavItems.forEach { item ->

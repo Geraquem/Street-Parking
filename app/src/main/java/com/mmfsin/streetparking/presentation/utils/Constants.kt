@@ -6,8 +6,7 @@ const val TABLE_SPOTS = "table_spots"
 
 /** SHARED PREFS */
 const val SHARED_PREFS_NAME = "streetparking_shared_prefs"
-const val SP_ADD_PRODUCT_VISIBLE = "streetparking_add_product_visible"
-const val SP_ACTUAL_FILTER = "sp_actual_filter"
+const val SP_RADIUS = "shared_prefs_radius"
 
 /** BOTTOM NAVIGATION */
 const val BN_HOME_ID = "bottom_nav_home_id"

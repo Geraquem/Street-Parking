@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mmfsin.streetparking.R
@@ -27,7 +31,27 @@ import com.mmfsin.streetparking.presentation.core.theme.White
 @Preview
 @Composable
 fun LocationErrorDialogPV() {
-    LocationErrorDialog()
+    //    LocationErrorDialog()
+    NeedsLocationOn()
+}
+
+@Composable
+fun NeedsLocationOn() {
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .background(White)
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_map_spot), contentDescription = null,
+            modifier = Modifier.size(64.dp)
+        )
+        Spacer(Modifier.height(16.dp))
+
+        MediumText(text = R.string.permission_needed, gravity = TextAlign.Center)
+    }
 }
 
 @Composable

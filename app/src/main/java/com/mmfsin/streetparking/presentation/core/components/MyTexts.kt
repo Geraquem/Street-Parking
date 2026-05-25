@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.mmfsin.streetparking.R
 import com.mmfsin.streetparking.presentation.core.theme.Black
@@ -27,14 +28,16 @@ fun SmallText(
     modifier: Modifier = Modifier,
     text: Int,
     color: Color = Black,
-    fontWeight: FontWeight = FontWeight.Normal
+    fontWeight: FontWeight = FontWeight.Normal,
+    gravity: TextAlign = TextAlign.Start
 ) {
     Text(
-        modifier = Modifier,
+        modifier = modifier,
         text = stringResource(text),
         style = MaterialTheme.typography.bodySmall,
         color = color,
-        fontWeight = fontWeight
+        fontWeight = fontWeight,
+        textAlign = gravity
     )
 }
 
@@ -43,14 +46,16 @@ fun MediumText(
     modifier: Modifier = Modifier,
     text: Int,
     color: Color = Black,
-    fontWeight: FontWeight = FontWeight.Normal
+    fontWeight: FontWeight = FontWeight.Normal,
+    gravity: TextAlign = TextAlign.Start
 ) {
     Text(
-        modifier = Modifier,
+        modifier = modifier,
         text = stringResource(text),
         style = MaterialTheme.typography.bodyLarge,
         color = color,
-        fontWeight = fontWeight
+        fontWeight = fontWeight,
+        textAlign = gravity
     )
 }
 
@@ -59,14 +64,16 @@ fun BigText(
     modifier: Modifier = Modifier,
     text: Int,
     color: Color = Black,
-    fontWeight: FontWeight = FontWeight.Normal
+    fontWeight: FontWeight = FontWeight.Normal,
+    gravity: TextAlign = TextAlign.Start
 ) {
     Text(
-        modifier = Modifier,
+        modifier = modifier,
         text = stringResource(text),
         style = MaterialTheme.typography.titleLarge,
         color = color,
-        fontWeight = fontWeight
+        fontWeight = fontWeight,
+        textAlign = gravity
     )
 }
 
