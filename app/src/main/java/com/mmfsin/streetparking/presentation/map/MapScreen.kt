@@ -173,14 +173,13 @@ fun MapContent(
 
             cameraPositionState.animate(
                 update = CameraUpdateFactory.newLatLngZoom(target, 16f),
-                durationMs = 500
+                durationMs = 1000
             )
         }
 
         Box(Modifier.fillMaxSize()) {
 
             BottomSheetScaffold(
-
                 scaffoldState = scaffoldState,
                 sheetPeekHeight = 0.dp,
                 sheetDragHandle = {  },
@@ -221,7 +220,6 @@ fun MapContent(
                             state = MarkerState(
                                 position = LatLng(spot.lat, spot.lng)
                             ),
-                            title = spot.address,
                             onClick = {
                                 scope.launch { scaffoldState.bottomSheetState.expand() }
                                 updateSelectedSpot(spot)

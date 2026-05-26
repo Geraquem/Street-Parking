@@ -21,8 +21,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,11 +38,11 @@ import com.mmfsin.streetparking.R
 import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.presentation.core.components.MediumText
 import com.mmfsin.streetparking.presentation.core.components.SmallText
-import com.mmfsin.streetparking.presentation.core.theme.Black
 import com.mmfsin.streetparking.presentation.core.theme.BlueMedium
 import com.mmfsin.streetparking.presentation.core.theme.GrayHard
 import com.mmfsin.streetparking.presentation.core.theme.White
 import com.mmfsin.streetparking.presentation.utils.formatDate
+import com.mmfsin.streetparking.presentation.utils.getAddress
 
 @Preview
 @Composable
@@ -47,7 +52,6 @@ fun SpotSheetPV() {
             id = "",
             lat = 40.397043,
             lng = -3.715447,
-            address = "Hola esta es la dirección",
             date = 1739728440000,
             reclaimed = 27
         ),
@@ -61,6 +65,15 @@ fun SpotSheet(
     onDismiss: () -> Unit,
     howToGo: () -> Unit
 ) {
+
+    var address by remember { mutableStateOf<String?>(null) }
+
+    LocalContext.current.getAddress(
+        lat = spot.lat,
+        lng = spot.lng,
+        result = { adr -> address = adr }
+    )
+
     Column(
         modifier = Modifier.fillMaxWidth()
             .background(White)
@@ -71,7 +84,10 @@ fun SpotSheet(
 
         Spacer(Modifier.height(24.dp))
 
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
             Box(
                 modifier = Modifier
                     .width(64.dp)
@@ -85,10 +101,14 @@ fun SpotSheet(
 
         Spacer(Modifier.height(24.dp))
 
-        Text(
-            text = spot.address, style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.SemiBold
-        )
+        address?.let { adr ->
+            Text(
+                text = adr,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp
+            )
+        }
 
         Spacer(Modifier.height(8.dp))
 
