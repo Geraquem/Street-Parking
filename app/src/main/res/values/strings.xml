@@ -14,6 +14,9 @@
     <string name="permission_error_button">Ajustes de la aplicación</string>
     <string name="permission_needed">Es necesario tener la ubicación activada para ver tu posición y encontrar sitios cercanos.</string>
 
+    <!-- LEAVE SPOT -->
+    <string name="leave_spot_button">Dejar sitio libre</string>
+
     <!-- SPOT DIALOG -->
     <string name="spot_dialog_not_address">No ha sido posible conseguir la dirección</string>
     <string name="spot_dialog_remember">Recuerda que la ubicación es aproximada</string>

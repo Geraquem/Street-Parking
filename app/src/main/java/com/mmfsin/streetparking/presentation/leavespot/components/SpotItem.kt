@@ -1,4 +1,4 @@
-package com.mmfsin.streetparking.presentation.home.components
+package com.mmfsin.streetparking.presentation.leavespot.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

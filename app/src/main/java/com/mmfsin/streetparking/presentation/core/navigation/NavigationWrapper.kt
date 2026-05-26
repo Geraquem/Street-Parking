@@ -27,7 +27,7 @@ import com.mmfsin.streetparking.R
 import com.mmfsin.streetparking.presentation.core.components.Toolbar
 import com.mmfsin.streetparking.presentation.core.theme.Black
 import com.mmfsin.streetparking.presentation.core.theme.GrayHard
-import com.mmfsin.streetparking.presentation.home.HomeScreen
+import com.mmfsin.streetparking.presentation.leavespot.HomeScreen
 import com.mmfsin.streetparking.presentation.map.MapScreen
 
 @Preview

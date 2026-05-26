@@ -1,13 +1,13 @@
-package com.mmfsin.streetparking.presentation.home
+package com.mmfsin.streetparking.presentation.leavespot
 
 import com.mmfsin.streetparking.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class LeaveSpotViewModel @Inject constructor(
 
-) : BaseViewModel<HomeStates>(HomeStates()) {
+) : BaseViewModel<LeaveSpotStates>(LeaveSpotStates()) {
 
     init {
 
