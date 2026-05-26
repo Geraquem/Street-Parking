@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
+    implementation(libs.geofire.android.common)
 
     //    /** Google SingIn */
     //    implementation(libs.play.services.auth)

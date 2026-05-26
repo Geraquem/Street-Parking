@@ -7,8 +7,9 @@ import com.mmfsin.streetparking.presentation.utils.TABLE_SPOTS
 @Entity(tableName = TABLE_SPOTS)
 data class SpotDTO(
     @PrimaryKey val id: String = "",
-    val lat: Long = 0,
-    val lng: Long = 0,
+    val lat: Double = 0.0,
+    val lng: Double = 0.0,
+    val geohash: String = "",
     val reclaimed: Long = 0,
     val date: Long = 0,
 )
