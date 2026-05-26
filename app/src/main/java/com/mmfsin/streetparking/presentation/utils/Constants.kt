@@ -12,3 +12,6 @@ const val SP_RADIUS = "shared_prefs_radius"
 const val BN_HOME_ID = "bottom_nav_home_id"
 const val BN_MAP = "bottom_nav_map"
 const val BN_AUX_3 = "bottom_nav_aux3"
+
+/** FIREBASE */
+const val SPOTS = "Spots"

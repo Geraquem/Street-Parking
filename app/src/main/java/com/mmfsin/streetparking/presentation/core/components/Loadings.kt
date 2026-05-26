@@ -5,14 +5,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.mmfsin.streetparking.presentation.core.theme.BlueMedium
 import com.mmfsin.streetparking.presentation.core.theme.White
 
@@ -39,5 +41,25 @@ fun MiniLoading() {
             color = BlueMedium,
             strokeCap = StrokeCap.Round
         )
+    }
+}
+
+@Preview
+@Composable
+fun DialogLoading() {
+    Dialog(onDismissRequest = {}) {
+        Box(
+            modifier = Modifier.size(200.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(White),
+            contentAlignment = Alignment.Center
+        ){
+            CircularProgressIndicator(
+                Modifier.size(40.dp),
+                strokeWidth = 6.dp,
+                color = BlueMedium,
+                strokeCap = StrokeCap.Round
+            )
+        }
     }
 }
