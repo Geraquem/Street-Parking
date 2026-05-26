@@ -15,6 +15,12 @@
     <string name="permission_error_button">Ajustes de la aplicación</string>
     <string name="permission_needed">Es necesario tener la ubicación activada para ver tu posición y encontrar sitios cercanos.</string>
 
+    <!-- SPOT DIALOG -->
+    <string name="spot_dialog_remember">Recuerda que la ubicación es aproximada</string>
+    <string name="spot_dialog_reclaimed">Veces reclamado:</string>
+    <string name="spot_dialog_how_to_go">Cómo llegar</string>
+    <string name="spot_dialog_close">Cerrar</string>
+
     <!-- RADIUS -->
     <string name="radius_dialog_search">Búsqueda:</string>
     <string name="radius_dialog_title">Radio de búsqueda:</string>

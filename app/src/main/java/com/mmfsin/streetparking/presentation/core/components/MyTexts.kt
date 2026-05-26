@@ -25,15 +25,15 @@ fun TextsPV() {
 
 @Composable
 fun SmallText(
-    modifier: Modifier = Modifier,
     text: Int,
+    modifier: Modifier = Modifier,
     color: Color = Black,
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start
 ) {
     Text(
-        modifier = modifier,
         text = stringResource(text),
+        modifier = modifier,
         style = MaterialTheme.typography.bodySmall,
         color = color,
         fontWeight = fontWeight,
@@ -43,8 +43,8 @@ fun SmallText(
 
 @Composable
 fun MediumText(
-    modifier: Modifier = Modifier,
     text: Int,
+    modifier: Modifier = Modifier,
     color: Color = Black,
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start
@@ -61,8 +61,8 @@ fun MediumText(
 
 @Composable
 fun BigText(
-    modifier: Modifier = Modifier,
     text: Int,
+    modifier: Modifier = Modifier,
     color: Color = Black,
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start

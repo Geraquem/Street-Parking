@@ -1,6 +1,7 @@
 package com.mmfsin.streetparking.presentation.map
 
 import com.google.android.gms.maps.model.LatLng
+import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.domain.usecases.GetRadiusUseCase
 import com.mmfsin.streetparking.domain.usecases.GetSpotsUseCase
 import com.mmfsin.streetparking.domain.usecases.UpdateRadiusUseCase
@@ -68,5 +69,9 @@ class MapViewModel @Inject constructor(
 
     fun showRadiusDialog(visible: Boolean) {
         _uiState.update { it.copy(showRadiusDialog = visible) }
+    }
+
+    fun updateSelectedSpot(spot: Spot?) {
+        _uiState.update { it.copy(selectedSpot = spot) }
     }
 }

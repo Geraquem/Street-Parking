@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1045765779142",
+    "project_id": "street-parking-be46f",
+    "storage_bucket": "street-parking-be46f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045765779142:android:0c25f6d67c3462317f31c7",
+        "android_client_info": {
+          "package_name": "com.mmfsin.streetparking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqD3NnN7ixeEzB-1_Me1tS3ai2W6Ncos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

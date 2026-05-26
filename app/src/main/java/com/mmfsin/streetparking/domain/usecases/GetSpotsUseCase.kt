@@ -6,9 +6,9 @@ import javax.inject.Inject
 class GetSpotsUseCase @Inject constructor() {
     operator fun invoke(): List<Spot> {
         return listOf(
-            Spot("A", 40.4170, -3.7040, "Calle Salmonela", 12425254),
-            Spot("B", 40.4500, -3.7500, "Calle Salmonela 2", 124254),
-            Spot("C", 40.4200, -3.7000, "Calle Salmonela 3", 124269),
+            Spot("A", 40.395228, -3.710444, "Calle Salmonela", 12425254, 27),
+            Spot("B", 40.395780, -3.700851, "Calle Salmonela 2", 124254, 27),
+            Spot("C", 40.397043, -3.715447, "Calle Salmonela 3", 124269, 27),
         )
     }
 }

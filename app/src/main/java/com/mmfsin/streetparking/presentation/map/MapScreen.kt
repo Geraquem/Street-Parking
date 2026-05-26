@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.mmfsin.streetparking.presentation.map
 
 import android.app.Activity
@@ -7,14 +9,24 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,14 +38,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.mmfsin.streetparking.R
 import com.mmfsin.streetparking.domain.models.RadiusTypes.Companion.getTypeByRadius
+import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.presentation.core.components.LoadingFullScreen
 import com.mmfsin.streetparking.presentation.core.components.MediumText
 import com.mmfsin.streetparking.presentation.core.theme.BlueMedium
@@ -44,10 +59,12 @@ import com.mmfsin.streetparking.presentation.map.components.NeedsLocationOn
 import com.mmfsin.streetparking.presentation.map.components.OnResume
 import com.mmfsin.streetparking.presentation.map.components.RadiusDialog
 import com.mmfsin.streetparking.presentation.map.components.RequestLocationPermissions
+import com.mmfsin.streetparking.presentation.map.components.SpotSheet
 import com.mmfsin.streetparking.presentation.map.components.checkLocationPermissions
 import com.mmfsin.streetparking.presentation.map.helper.dialogEnableGps
 import com.mmfsin.streetparking.presentation.map.helper.getUserLocation
 import com.mmfsin.streetparking.presentation.map.helper.isGPSActive
+import kotlinx.coroutines.launch
 
 @Preview
 @Composable
@@ -59,7 +76,7 @@ fun MapScreenPV() {
             showRadiusDialog = true,
         ),
         {}, {}, {},
-        {}, {},
+        {}, {}, {}, {},
     )
 }
 
@@ -73,6 +90,8 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel()) {
         updateGPSActive = { active -> viewModel.updateGPSActive(active) },
         updateShowRadiusDialog = { visible -> viewModel.showRadiusDialog(visible) },
         updateRadius = { newRadius -> viewModel.updateRadius(newRadius) },
+        getSpots = { viewModel.getSpots() },
+        updateSelectedSpot = { spot -> viewModel.updateSelectedSpot(spot) },
     )
 }
 
@@ -84,6 +103,8 @@ fun MapContent(
     updateGPSActive: (Boolean) -> Unit,
     updateShowRadiusDialog: (Boolean) -> Unit,
     updateRadius: (Double) -> Unit,
+    getSpots: () -> Unit,
+    updateSelectedSpot: (Spot?) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -133,26 +154,83 @@ fun MapContent(
 
     if (uiState.userLocation == null) LoadingFullScreen()
     uiState.userLocation?.let { location ->
+        LaunchedEffect(location) { getSpots() }
+
+        val sheetState = rememberStandardBottomSheetState(
+            initialValue = SheetValue.Hidden,
+            skipHiddenState = false
+        )
+        val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
+
+        val scope = rememberCoroutineScope()
+
+        val cameraPositionState = rememberCameraPositionState()
+
+        LaunchedEffect(uiState.selectedSpot, location) {
+            val target = uiState.selectedSpot?.let {
+                LatLng(it.lat, it.lng)
+            } ?: location
+
+            cameraPositionState.animate(
+                update = CameraUpdateFactory.newLatLngZoom(target, 16f),
+                durationMs = 500
+            )
+        }
+
         Box(Modifier.fillMaxSize()) {
 
-            GoogleMap(
-                modifier = Modifier.fillMaxSize(),
-                cameraPositionState = rememberCameraPositionState {
-                    position = CameraPosition.fromLatLngZoom(location, 16f)
-                },
-                properties = MapProperties(
-                    isMyLocationEnabled = true
-                )
-            ) {
-                Circle(
-                    center = location,
-                    radius = uiState.radius,
-                    fillColor = BlueTransparent,
-                    strokeColor = BlueMedium,
-                    strokeWidth = 1f
-                )
-            }
+            BottomSheetScaffold(
 
+                scaffoldState = scaffoldState,
+                sheetPeekHeight = 0.dp,
+                sheetDragHandle = {  },
+                sheetContent = {
+                    if (uiState.selectedSpot != null) {
+                        SpotSheet(
+                            spot = uiState.selectedSpot,
+                            {
+                                scope.launch {
+                                    scaffoldState.bottomSheetState.hide()
+                                    //                                    updateSelectedSpot(null)
+                                }
+                            },
+                            {}
+                        )
+                    } else {
+                        Box(modifier = Modifier.fillMaxWidth().height(1.dp))
+                    }
+                }
+            ) { padding ->
+                GoogleMap(
+                    modifier = Modifier.fillMaxSize().padding(padding),
+                    cameraPositionState = cameraPositionState,
+                    properties = MapProperties(
+                        isMyLocationEnabled = true
+                    )
+                ) {
+                    Circle(
+                        center = location,
+                        radius = uiState.radius,
+                        fillColor = BlueTransparent,
+                        strokeColor = BlueMedium,
+                        strokeWidth = 1f
+                    )
+
+                    uiState.spots.forEach { spot ->
+                        Marker(
+                            state = MarkerState(
+                                position = LatLng(spot.lat, spot.lng)
+                            ),
+                            title = spot.address,
+                            onClick = {
+                                scope.launch { scaffoldState.bottomSheetState.expand() }
+                                updateSelectedSpot(spot)
+                                true
+                            }
+                        )
+                    }
+                }
+            }
 
             ButtonRadius(
                 radius = uiState.radius,
@@ -161,11 +239,13 @@ fun MapContent(
         }
     }
 
-    if (uiState.showRadiusDialog) RadiusDialog(
-        actualRadius = uiState.radius,
-        onDismiss = { updateShowRadiusDialog(false) },
-        newRadius = { newRadius -> updateRadius(newRadius) }
-    )
+    if (uiState.showRadiusDialog) {
+        RadiusDialog(
+            actualRadius = uiState.radius,
+            onDismiss = { updateShowRadiusDialog(false) },
+            newRadius = { newRadius -> updateRadius(newRadius) }
+        )
+    }
 }
 
 @Preview

@@ -10,6 +10,8 @@ data class MapStates(
 
     val showRadiusDialog: Boolean = false,
 
+    val selectedSpot: Spot? = null,
+
     val radius: Double = 0.0,
     val spots: List<Spot> = emptyList()
 )
