@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,8 +52,8 @@ fun SpotSheetPV() {
     SpotSheet(
         spot = Spot(
             id = "",
-            lat = 40.397043,
-            lng = -3.715447,
+            lat = 40.395228,
+            lng = -3.710444,
             date = 1739728440000,
             reclaimed = 27
         ),
@@ -66,13 +68,16 @@ fun SpotSheet(
     howToGo: () -> Unit
 ) {
 
-    var address by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+    var address by remember(spot.id) { mutableStateOf<String?>(null) }
 
-    LocalContext.current.getAddress(
-        lat = spot.lat,
-        lng = spot.lng,
-        result = { adr -> address = adr }
-    )
+    LaunchedEffect(spot.id) {
+        context.getAddress(
+            lat = spot.lat,
+            lng = spot.lng,
+            result = { adr -> address = adr }
+        )
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -101,14 +106,12 @@ fun SpotSheet(
 
         Spacer(Modifier.height(24.dp))
 
-        address?.let { adr ->
-            Text(
-                text = adr,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 20.sp
-            )
-        }
+        Text(
+            text = if (address == "") stringResource(R.string.spot_dialog_not_address) else address ?: "",
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp
+        )
 
         Spacer(Modifier.height(8.dp))
 

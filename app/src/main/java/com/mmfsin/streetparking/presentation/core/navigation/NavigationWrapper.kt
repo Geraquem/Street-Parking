@@ -1,84 +1,110 @@
 package com.mmfsin.streetparking.presentation.core.navigation
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.mmfsin.streetparking.R
-import com.mmfsin.streetparking.presentation.core.components.StatusBarColor
 import com.mmfsin.streetparking.presentation.core.components.Toolbar
+import com.mmfsin.streetparking.presentation.core.theme.Black
+import com.mmfsin.streetparking.presentation.core.theme.GrayHard
 import com.mmfsin.streetparking.presentation.home.HomeScreen
 import com.mmfsin.streetparking.presentation.map.MapScreen
-import com.mmfsin.streetparking.presentation.utils.BN_AUX_3
-import com.mmfsin.streetparking.presentation.utils.BN_HOME_ID
-import com.mmfsin.streetparking.presentation.utils.BN_MAP
 
+@Preview
 @Composable
 fun NavigationWrapper() {
-    val navController = rememberNavController()
+    val tabs = listOf(
+        TabData(stringResource(R.string.bottom_nav_leave_spot), R.drawable.ic_parking),
+        TabData(stringResource(R.string.bottom_nav_search_spot), R.drawable.ic_map_spot),
 
-    val bottomNavItems = listOf(
-        BottomNavItem(id = BN_HOME_ID, name = stringResource(R.string.bottom_nav_home), icon = painterResource(R.drawable.ic_parking)),
-        BottomNavItem(id = BN_MAP, name = stringResource(R.string.bottom_nav_aux2), icon = painterResource(R.drawable.ic_map_spot)),
-        BottomNavItem(id = BN_AUX_3, name = stringResource(R.string.bottom_nav_aux3), icon = painterResource(R.drawable.ic_map_spot)),
-    )
+        )
+    val selectedTab = remember { mutableIntStateOf(0) }
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination?.route
-
-    StatusBarColor()
     Scaffold(
         topBar = { Toolbar(text = R.string.app_name, iconBackVisible = false) },
-        bottomBar = {
-            NavigationBar(modifier = Modifier.fillMaxWidth()) {
-                bottomNavItems.forEach { item ->
-                    NavigationBarItem(
-                        selected = currentDestination == item.id,
-                        onClick = {
-                            navController.navigate(item.id) {
-                                popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = { Icon(painter = item.icon, contentDescription = item.name) },
-                        label = { Text(text = item.name) },
-                        alwaysShowLabel = false,
-                        colors = NavigationBarItemDefaults.colors(
-                        )
-                    )
-                }
-            }
-        }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = BN_HOME_ID,
+        Box(
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = BN_HOME_ID) { HomeScreen() }
-            composable(route = BN_MAP) { MapScreen() }
-            composable(route = BN_AUX_3) { HomeScreen() }
+
+            when (selectedTab.intValue) {
+                0 -> HomeScreen()
+                1 -> MapScreen()
+            }
+
+            Surface(
+                modifier = Modifier.padding(12.dp),
+                shape = RoundedCornerShape(50),
+                shadowElevation = 6.dp,
+                color = Color.White
+            ) {
+                PrimaryTabRow(
+                    selectedTabIndex = selectedTab.intValue,
+                    divider = {},
+                    indicator = {
+                        Box(
+                            Modifier
+                                .tabIndicatorOffset(selectedTab.intValue)
+                                .fillMaxHeight()
+                                .padding(8.dp)
+                                .clip(RoundedCornerShape(50))
+                                .background(GrayHard.copy(alpha = 0.2f))
+                        )
+                    }
+                ) {
+
+                    tabs.forEachIndexed { index, tab ->
+                        Tab(
+                            selected = selectedTab.intValue == index,
+                            onClick = { selectedTab.intValue = index },
+                            interactionSource = remember { MutableInteractionSource() },
+                        ) {
+
+                            Box(
+                                modifier = Modifier.padding(vertical = 16.dp)
+                                    .clickable(
+                                        indication = null,
+                                        interactionSource = remember { MutableInteractionSource() }
+                                    ) {
+                                        selectedTab.intValue = index
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = tab.title,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = Black
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-data class BottomNavItem(
-    val id: String,
-    val name: String,
-    val icon: Painter,
+data class TabData(
+    val title: String,
+    val icon: Int
 )

@@ -13,5 +13,6 @@ data class MapStates(
     val selectedSpot: Spot? = null,
 
     val radius: Double = 0.0,
+    val zoom: Float = 0f,
     val spots: List<Spot> = emptyList()
 )

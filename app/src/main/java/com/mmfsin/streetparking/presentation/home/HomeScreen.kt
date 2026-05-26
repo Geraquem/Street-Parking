@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mmfsin.streetparking.presentation.core.theme.GrayLight
 import com.mmfsin.streetparking.presentation.core.theme.RedHard
 
 @Preview
@@ -31,5 +32,5 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 fun HomeContent(
     uiState: HomeStates,
 ) {
-    Box(Modifier.fillMaxSize().background(RedHard))
+    Box(Modifier.fillMaxSize().background(GrayLight))
 }

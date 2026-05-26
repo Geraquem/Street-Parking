@@ -6,9 +6,8 @@
     <string name="cd_arrow_back">Atrás</string>
 
     <!-- BOTTOM NAV -->
-    <string name="bottom_nav_home">Home</string>
-    <string name="bottom_nav_aux2">Mapa</string>
-    <string name="bottom_nav_aux3">Aux 3</string>
+    <string name="bottom_nav_leave_spot">Dejo sitio</string>
+    <string name="bottom_nav_search_spot">Busco sitio</string>
 
     <!-- PERMISSIONS ERROR -->
     <string name="permission_error_description">Para poder abrir el mapa necesitas tener activado el permiso de ubicación.</string>
@@ -16,6 +15,7 @@
     <string name="permission_needed">Es necesario tener la ubicación activada para ver tu posición y encontrar sitios cercanos.</string>
 
     <!-- SPOT DIALOG -->
+    <string name="spot_dialog_not_address">No ha sido posible conseguir la dirección</string>
     <string name="spot_dialog_remember">Recuerda que la ubicación es aproximada</string>
     <string name="spot_dialog_reclaimed">Veces reclamado:</string>
     <string name="spot_dialog_how_to_go">Cómo llegar</string>
