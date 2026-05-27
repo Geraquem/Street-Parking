@@ -15,3 +15,4 @@ const val BN_AUX_3 = "bottom_nav_aux3"
 
 /** FIREBASE */
 const val SPOTS = "Spots"
+const val GEOHASH = "geohash"

@@ -1,11 +1,17 @@
 package com.mmfsin.streetparking.domain.usecases
 
+import com.google.android.gms.maps.model.LatLng
+import com.mmfsin.streetparking.domain.interfaces.ISpotsRepository
 import com.mmfsin.streetparking.domain.models.Spot
 import javax.inject.Inject
 
-class GetSpotsUseCase @Inject constructor() {
-    operator fun invoke(): List<Spot> {
-        return listOf(
+class GetSpotsUseCase @Inject constructor(
+    private val repository: ISpotsRepository
+) {
+    suspend operator fun invoke(userLocation: LatLng): List<Spot> = repository.getSpotsAroundMe(userLocation)
+
+    companion object {
+        fun getExampleSpots() = listOf(
             Spot("A", 40.395228, -3.710444, 12425254, 27),
             Spot("B", 40.395780, -3.700851, 124254, 27),
             Spot("C", 40.397043, -3.715447, 124269, 27),

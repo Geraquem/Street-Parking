@@ -50,9 +50,9 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun getSpots() {
+    fun getSpots(userLocation: LatLng) {
         executeUseCase(
-            { getSpotsUseCase() },
+            { getSpotsUseCase(userLocation) },
             { result -> _uiState.update { it.copy(spots = result) } },
             {}
         )

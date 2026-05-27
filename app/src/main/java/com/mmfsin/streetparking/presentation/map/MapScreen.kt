@@ -89,7 +89,7 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel()) {
         updateGPSActive = { active -> viewModel.updateGPSActive(active) },
         updateShowRadiusDialog = { visible -> viewModel.showRadiusDialog(visible) },
         updateRadius = { newRadius -> viewModel.updateRadius(newRadius) },
-        getSpots = { viewModel.getSpots() },
+        getSpots = { userLocation -> viewModel.getSpots(userLocation) },
         updateSelectedSpot = { spot -> viewModel.updateSelectedSpot(spot) },
     )
 }
@@ -102,7 +102,7 @@ fun MapContent(
     updateGPSActive: (Boolean) -> Unit,
     updateShowRadiusDialog: (Boolean) -> Unit,
     updateRadius: (Double) -> Unit,
-    getSpots: () -> Unit,
+    getSpots: (LatLng) -> Unit,
     updateSelectedSpot: (Spot?) -> Unit,
 ) {
 
@@ -153,7 +153,7 @@ fun MapContent(
 
     if (uiState.userLocation == null) LoadingFullScreen()
     uiState.userLocation?.let { location ->
-        LaunchedEffect(location) { getSpots() }
+        LaunchedEffect(location) { getSpots(location) }
 
         val sheetState = rememberStandardBottomSheetState(
             initialValue = Hidden,
@@ -177,7 +177,6 @@ fun MapContent(
         }
 
         Box(Modifier.fillMaxSize()) {
-
             BottomSheetScaffold(
                 scaffoldState = scaffoldState,
                 sheetPeekHeight = 0.dp,
@@ -188,7 +187,7 @@ fun MapContent(
                             spot = uiState.selectedSpot,
                             {
                                 scope.launch { scaffoldState.bottomSheetState.hide() }
-//                                updateSelectedSpot(null)
+                                //                                updateSelectedSpot(null)
                             },
                             {}
                         )
