@@ -189,6 +189,7 @@ fun MapContent(
                     if (uiState.selectedSpot != null) {
                         SpotSheet(
                             spot = uiState.selectedSpot,
+                            reclaimedIds = uiState.reclaimedSpots,
                             onDismiss = {
                                 scope.launch { scaffoldState.bottomSheetState.hide() }
                                 //                                updateSelectedSpot(null)

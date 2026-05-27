@@ -2,7 +2,7 @@ package com.mmfsin.streetparking.presentation.utils
 
 /** ROOM */
 const val DDBB_NAME = "streetparking_room_ddbb"
-const val TABLE_SPOTS = "table_spots"
+const val TABLE_RECLAIMED_SPOTS = "table__reclaimed_spots"
 
 /** SHARED PREFS */
 const val SHARED_PREFS_NAME = "streetparking_shared_prefs"

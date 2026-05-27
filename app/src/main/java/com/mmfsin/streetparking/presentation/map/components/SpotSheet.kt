@@ -57,6 +57,7 @@ fun SpotSheetPV() {
             date = 1739728440000,
             reclaimed = 27
         ),
+        reclaimedIds = listOf(""),
         {}, { _, _, _ -> }, { _, _ -> }
     )
 }
@@ -64,6 +65,7 @@ fun SpotSheetPV() {
 @Composable
 fun SpotSheet(
     spot: Spot,
+    reclaimedIds: List<String>,
     onDismiss: () -> Unit,
     reclaim: (String, Double, Double) -> Unit,
     howToGo: (Double, Double) -> Unit
@@ -71,6 +73,8 @@ fun SpotSheet(
 
     val context = LocalContext.current
     var address by remember(spot.id) { mutableStateOf<String?>(null) }
+
+    val alreadyReclaimed = spot.id in reclaimedIds
 
     LaunchedEffect(spot.id) {
         context.getAddress(
@@ -155,6 +159,7 @@ fun SpotSheet(
         Spacer(Modifier.height(16.dp))
 
         Buttons(
+            reclaimed = alreadyReclaimed,
             reclaim = { reclaim(spot.id, spot.lat, spot.lng) },
             howToGo = { howToGo(spot.lat, spot.lng) }
         )
@@ -168,20 +173,30 @@ fun SpotSheet(
 }
 
 @Composable
-fun Buttons(reclaim: () -> Unit, howToGo: () -> Unit) {
+fun Buttons(
+    reclaimed: Boolean,
+    reclaim: () -> Unit,
+    howToGo: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
     ) {
-        SpotButton(
-            modifier = Modifier.weight(0.5f).padding(end = 6.dp),
-            text = R.string.spot_dialog_reclaim,
-            icon = R.drawable.ic_map_spot,
-            color = OrangeHard,
-            onClick = { reclaim() }
-        )
+        if (!reclaimed) {
+            SpotButton(
+                modifier = Modifier
+                    .weight(0.5f)
+                    .padding(end = 6.dp),
+                text = R.string.spot_dialog_reclaim,
+                icon = R.drawable.ic_map_spot,
+                color = OrangeHard,
+                onClick = { reclaim() }
+            )
+        }
 
         SpotButton(
-            modifier = Modifier.weight(0.5f).padding(start = 6.dp),
+            modifier = Modifier
+                .weight(if (reclaimed) 1f else 0.5f)
+                .padding(start = if (reclaimed) 0.dp else 6.dp),
             text = R.string.spot_dialog_how_to_go,
             icon = R.drawable.ic_location_arrow,
             color = BlueMedium,

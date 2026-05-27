@@ -7,14 +7,18 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmfsin.streetparking.data.bbdd.daos.SpotsDAO
 import com.mmfsin.streetparking.data.mappers.createSpotByCoordinates
+import com.mmfsin.streetparking.data.mappers.toIds
 import com.mmfsin.streetparking.data.mappers.toSpotList
 import com.mmfsin.streetparking.data.models.SpotDTO
+import com.mmfsin.streetparking.data.models.SpotIdDTO
 import com.mmfsin.streetparking.domain.interfaces.ISpotsRepository
 import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.presentation.utils.GEOHASH
 import com.mmfsin.streetparking.presentation.utils.RECLAIMED
 import com.mmfsin.streetparking.presentation.utils.SPOTS
 import com.mmfsin.streetparking.presentation.utils.checkNotNulls
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -84,8 +88,12 @@ class SpotsRepository @Inject constructor(
         return matching.distinctBy { it.id }.toSpotList()
     }
 
+    override fun getReclaimedSpots(): Flow<List<String>> {
+        return spotsDao.getReclaimedSpots().map { it.toIds() }
+    }
 
     override suspend fun reclaimSpot(id: String) {
+        spotsDao.insertSpot(SpotIdDTO(id = id))
         FirebaseFirestore.getInstance()
             .collection(SPOTS)
             .document(id)
@@ -130,7 +138,7 @@ class SpotsRepository @Inject constructor(
             LatLng(40.393242, -3.707626).createSpotByCoordinates(UUID.randomUUID().toString()),
             LatLng(40.400073, -3.710833).createSpotByCoordinates(UUID.randomUUID().toString()),
             LatLng(40.394183, -3.706777).createSpotByCoordinates(UUID.randomUUID().toString()),
-//            LatLng(aaaaaaaaaa).createSpotByCoordinates(UUID.randomUUID().toString()),
+            //            LatLng(aaaaaaaaaa).createSpotByCoordinates(UUID.randomUUID().toString()),
         )
     }
 }

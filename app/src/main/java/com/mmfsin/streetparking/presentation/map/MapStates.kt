@@ -14,5 +14,7 @@ data class MapStates(
 
     val radius: Double = 0.0,
     val zoom: Float = 0f,
-    val spots: List<Spot> = emptyList()
+    val spots: List<Spot> = emptyList(),
+
+    val reclaimedSpots: List<String> = emptyList()
 )

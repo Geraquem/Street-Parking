@@ -6,6 +6,7 @@ import com.firebase.geofire.GeoLocation
 import com.google.android.gms.maps.model.LatLng
 import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.domain.usecases.GetRadiusUseCase
+import com.mmfsin.streetparking.domain.usecases.GetReclaimedSpotsUseCase
 import com.mmfsin.streetparking.domain.usecases.GetSpotsUseCase
 import com.mmfsin.streetparking.domain.usecases.ReclaimSpotUseCase
 import com.mmfsin.streetparking.domain.usecases.UpdateRadiusUseCase
@@ -21,14 +22,17 @@ import javax.inject.Inject
 class MapViewModel @Inject constructor(
     private val getSpotsUseCase: GetSpotsUseCase,
     private val getRadiusUseCase: GetRadiusUseCase,
+    private val getReclaimedSpotsUseCase: GetReclaimedSpotsUseCase,
     private val updateRadiusUseCase: UpdateRadiusUseCase,
     private val reclaimSpotUseCase: ReclaimSpotUseCase,
 ) : BaseViewModel<MapStates>(MapStates()) {
 
     private val radiusFlow = MutableStateFlow(0.0)
+    private val selectedSpotFlow = MutableStateFlow<Spot?>(null)
 
     init {
         getRadius()
+        observeReclaimedSpots()
     }
 
     fun getRadius() {
@@ -115,6 +119,7 @@ class MapViewModel @Inject constructor(
     }
 
     fun updateSelectedSpot(spot: Spot?) {
+        selectedSpotFlow.value = spot
         _uiState.update { it.copy(selectedSpot = spot) }
     }
 
@@ -124,5 +129,16 @@ class MapViewModel @Inject constructor(
             {},
             {}
         )
+    }
+
+    private fun observeReclaimedSpots() {
+        viewModelScope.launch {
+            combine(
+                getReclaimedSpotsUseCase(),
+                selectedSpotFlow,
+            ) { reclaimed, _ -> reclaimed }.collect { reclaimed ->
+                _uiState.update { it.copy(reclaimedSpots = reclaimed) }
+            }
+        }
     }
 }
