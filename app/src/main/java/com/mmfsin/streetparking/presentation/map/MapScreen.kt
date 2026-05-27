@@ -90,7 +90,7 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel()) {
         updateGPSActive = { active -> viewModel.updateGPSActive(active) },
         updateShowRadiusDialog = { visible -> viewModel.showRadiusDialog(visible) },
         updateRadius = { newRadius -> viewModel.updateRadius(newRadius) },
-        getSpots = { userLocation -> viewModel.getSpots(userLocation) },
+        getSpots = { userLocation -> viewModel.getSpotsInRadius(userLocation) },
         updateSelectedSpot = { spot -> viewModel.updateSelectedSpot(spot) },
         reclaimSpot = { id -> viewModel.reclaimSpot(id) },
     )

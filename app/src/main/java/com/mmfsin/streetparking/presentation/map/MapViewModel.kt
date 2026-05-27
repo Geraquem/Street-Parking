@@ -1,5 +1,8 @@
 package com.mmfsin.streetparking.presentation.map
 
+import androidx.lifecycle.viewModelScope
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.maps.model.LatLng
 import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.domain.usecases.GetRadiusUseCase
@@ -8,7 +11,10 @@ import com.mmfsin.streetparking.domain.usecases.ReclaimSpotUseCase
 import com.mmfsin.streetparking.domain.usecases.UpdateRadiusUseCase
 import com.mmfsin.streetparking.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +25,8 @@ class MapViewModel @Inject constructor(
     private val reclaimSpotUseCase: ReclaimSpotUseCase,
 ) : BaseViewModel<MapStates>(MapStates()) {
 
+    private val radiusFlow = MutableStateFlow(0.0)
+
     init {
         getRadius()
     }
@@ -26,7 +34,10 @@ class MapViewModel @Inject constructor(
     fun getRadius() {
         executeUseCase(
             { getRadiusUseCase() },
-            { result -> _uiState.update { it.copy(radius = result) } },
+            { result ->
+                radiusFlow.value = result
+                _uiState.update { it.copy(radius = result) }
+            },
             {}
         )
     }
@@ -52,12 +63,42 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun getSpots(userLocation: LatLng) {
-        executeUseCase(
-            { getSpotsUseCase(userLocation) },
-            { result -> _uiState.update { it.copy(spots = result) } },
-            {}
-        )
+    fun getSpotsInRadius(userLocation: LatLng){
+        viewModelScope.launch {
+            combine(
+                getSpotsUseCase(userLocation),
+                radiusFlow,
+            ) { spots, radius->
+                filterSpotsByRadius(
+                    spots = spots,
+                    userLocation = userLocation,
+                    radius = radius,
+                )
+            }.collect { filteredSpots ->
+                _uiState.update {
+                    it.copy(
+                        spots = filteredSpots
+                    )
+                }
+            }
+        }
+    }
+
+    fun filterSpotsByRadius(
+        spots: List<Spot>,
+        userLocation: LatLng,
+        radius: Double
+    ): List<Spot> {
+
+        val center = GeoLocation(userLocation.latitude, userLocation.longitude)
+
+        return spots.filter { spot ->
+            val distance = GeoFireUtils.getDistanceBetween(
+                center,
+                GeoLocation(spot.lat, spot.lng)
+            )
+            distance <= radius
+        }
     }
 
     fun updateRadius(newRadius: Double) {

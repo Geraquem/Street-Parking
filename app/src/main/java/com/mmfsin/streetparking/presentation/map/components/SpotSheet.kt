@@ -161,11 +161,11 @@ fun SpotSheet(
             howToGo = { howToGo(spot.lat, spot.lng) }
         )
 
-        Spacer(Modifier.height(6.dp))
+        Spacer(Modifier.height(24.dp))
 
-        TextButton(onClick = { onDismiss() }, modifier = Modifier.fillMaxWidth()) {
-            MediumText(R.string.spot_dialog_close, gravity = TextAlign.Center)
-        }
+//        TextButton(onClick = { onDismiss() }, modifier = Modifier.fillMaxWidth()) {
+//            MediumText(R.string.spot_dialog_close, gravity = TextAlign.Center)
+//        }
     }
 }
 

@@ -3,12 +3,14 @@ package com.mmfsin.streetparking.domain.usecases
 import com.google.android.gms.maps.model.LatLng
 import com.mmfsin.streetparking.domain.interfaces.ISpotsRepository
 import com.mmfsin.streetparking.domain.models.Spot
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class GetSpotsUseCase @Inject constructor(
     private val repository: ISpotsRepository
 ) {
-    suspend operator fun invoke(userLocation: LatLng): List<Spot> = repository.getSpotsAroundMe(userLocation)
+    suspend operator fun invoke(userLocation: LatLng): Flow<List<Spot>> = flowOf(repository.getSpotsAroundMe(userLocation))
 
     companion object {
         fun getExampleSpots() = listOf(
