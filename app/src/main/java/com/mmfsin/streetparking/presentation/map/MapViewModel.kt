@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.domain.usecases.GetRadiusUseCase
 import com.mmfsin.streetparking.domain.usecases.GetSpotsUseCase
+import com.mmfsin.streetparking.domain.usecases.ReclaimSpotUseCase
 import com.mmfsin.streetparking.domain.usecases.UpdateRadiusUseCase
 import com.mmfsin.streetparking.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ class MapViewModel @Inject constructor(
     private val getSpotsUseCase: GetSpotsUseCase,
     private val getRadiusUseCase: GetRadiusUseCase,
     private val updateRadiusUseCase: UpdateRadiusUseCase,
+    private val reclaimSpotUseCase: ReclaimSpotUseCase,
 ) : BaseViewModel<MapStates>(MapStates()) {
 
     init {
@@ -73,5 +75,13 @@ class MapViewModel @Inject constructor(
 
     fun updateSelectedSpot(spot: Spot?) {
         _uiState.update { it.copy(selectedSpot = spot) }
+    }
+
+    fun reclaimSpot(id: String) {
+        executeUseCase(
+            { reclaimSpotUseCase(id) },
+            {},
+            {}
+        )
     }
 }

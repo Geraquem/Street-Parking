@@ -3,7 +3,9 @@ package com.mmfsin.streetparking.presentation.map.helper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.location.LocationManager
+import androidx.core.net.toUri
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -68,4 +70,12 @@ fun getLocation(
     }.addOnFailureListener {
         println("Failure obtaining Location: ${it.message}")
     }
+}
+
+fun Context.howToGo(lat: Double, lng: Double) {
+    val gmmIntentUri = "google.navigation:q=$lat,$lng&mode=d".toUri()
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+
+    startActivity(mapIntent)
 }

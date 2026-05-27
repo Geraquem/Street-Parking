@@ -3,6 +3,7 @@ package com.mmfsin.streetparking.data.repositories
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mmfsin.streetparking.data.bbdd.daos.SpotsDAO
 import com.mmfsin.streetparking.data.mappers.createSpotByCoordinates
@@ -11,6 +12,7 @@ import com.mmfsin.streetparking.data.models.SpotDTO
 import com.mmfsin.streetparking.domain.interfaces.ISpotsRepository
 import com.mmfsin.streetparking.domain.models.Spot
 import com.mmfsin.streetparking.presentation.utils.GEOHASH
+import com.mmfsin.streetparking.presentation.utils.RECLAIMED
 import com.mmfsin.streetparking.presentation.utils.SPOTS
 import com.mmfsin.streetparking.presentation.utils.checkNotNulls
 import kotlinx.coroutines.tasks.await
@@ -26,20 +28,20 @@ class SpotsRepository @Inject constructor(
         insertDataInFirestore()
         return Result.success(Unit)
 
-//        return try {
-//            val id = UUID.randomUUID().toString()
-//            val spot = coordinates.createSpotByCoordinates(id)
-//
-//            FirebaseFirestore.getInstance()
-//                .collection(SPOTS)
-//                .document(id)
-//                .set(spot)
-//                .await()
-//            Result.success(Unit)
-//
-//        } catch (e: Exception) {
-//            Result.failure(e)
-//        }
+        //        return try {
+        //            val id = UUID.randomUUID().toString()
+        //            val spot = coordinates.createSpotByCoordinates(id)
+        //
+        //            FirebaseFirestore.getInstance()
+        //                .collection(SPOTS)
+        //                .document(id)
+        //                .set(spot)
+        //                .await()
+        //            Result.success(Unit)
+        //
+        //        } catch (e: Exception) {
+        //            Result.failure(e)
+        //        }
     }
 
 
@@ -80,6 +82,15 @@ class SpotsRepository @Inject constructor(
         }
 
         return matching.distinctBy { it.id }.toSpotList()
+    }
+
+
+    override suspend fun reclaimSpot(id: String) {
+        FirebaseFirestore.getInstance()
+            .collection(SPOTS)
+            .document(id)
+            .update(RECLAIMED, FieldValue.increment(1))
+            .await()
     }
 
     /*************************************************************************************/

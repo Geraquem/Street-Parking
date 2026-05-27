@@ -173,9 +173,9 @@ fun SpotSheet(
 fun Buttons(reclaim: () -> Unit, howToGo: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround
     ) {
         SpotButton(
+            modifier = Modifier.weight(0.5f).padding(end = 6.dp),
             text = R.string.spot_dialog_reclaim,
             icon = R.drawable.ic_map_spot,
             color = OrangeHard,
@@ -183,6 +183,7 @@ fun Buttons(reclaim: () -> Unit, howToGo: () -> Unit) {
         )
 
         SpotButton(
+            modifier = Modifier.weight(0.5f).padding(start = 6.dp),
             text = R.string.spot_dialog_how_to_go,
             icon = R.drawable.ic_location_arrow,
             color = BlueMedium,
@@ -192,8 +193,9 @@ fun Buttons(reclaim: () -> Unit, howToGo: () -> Unit) {
 }
 
 @Composable
-fun SpotButton(text: Int, icon: Int, color: Color, onClick: () -> Unit) {
+fun SpotButton(modifier: Modifier, text: Int, icon: Int, color: Color, onClick: () -> Unit) {
     Button(
+        modifier = modifier,
         onClick = { onClick() },
         colors = ButtonDefaults.buttonColors(containerColor = color),
     ) {

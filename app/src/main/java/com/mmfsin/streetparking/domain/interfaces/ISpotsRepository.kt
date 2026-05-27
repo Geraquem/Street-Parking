@@ -6,4 +6,5 @@ import com.mmfsin.streetparking.domain.models.Spot
 interface ISpotsRepository {
     suspend fun createSpot(coordinates: LatLng): Result<Unit>
     suspend fun getSpotsAroundMe(userLocation: LatLng): List<Spot>
+    suspend fun reclaimSpot(id: String)
 }
