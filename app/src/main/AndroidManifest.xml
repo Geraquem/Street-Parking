@@ -20,8 +20,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCbgYcKvioNO_zVED0YoLScRCg_l0rLLw" />
 
-        <receiver android:name=".presentation.widget.WidgetBroadcast" />
-
         <receiver
             android:name=".presentation.widget.WidgetProvider"
             android:exported="false">

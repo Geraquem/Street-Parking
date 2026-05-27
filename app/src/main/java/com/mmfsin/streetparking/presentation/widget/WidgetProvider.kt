@@ -5,12 +5,11 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.widget.RemoteViews
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.mmfsin.streetparking.R
-import com.mmfsin.streetparking.presentation.widget.WidgetRender.WidgetState
-import com.mmfsin.streetparking.presentation.widget.WidgetRender.render
 
 class WidgetProvider : AppWidgetProvider() {
 
@@ -56,11 +55,17 @@ class WidgetProvider : AppWidgetProvider() {
 
             if (widgetId == -1) return
 
-            render(context, widgetId, WidgetState.LOADING)
+            val work = OneTimeWorkRequestBuilder<WidgetWorker>()
+                .setInputData(workDataOf("widgetId" to widgetId))
+                .build()
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                render(context, widgetId, WidgetState.IDLE)
-            }, 2000)
+            WorkManager.getInstance(context).enqueue(work)
+
+
+            //
+            //            Handler(Looper.getMainLooper()).postDelayed({
+            //                render(context, widgetId, WidgetState.IDLE)
+            //            }, 2000)
         }
     }
 }

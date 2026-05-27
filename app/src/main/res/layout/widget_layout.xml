@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFBC92"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -13,11 +12,5 @@
         android:background="@drawable/bg_button_widget"
         android:contentDescription="@string/leave_spot_button"
         android:src="@drawable/ic_map_spot" />
-
-    <TextView
-        android:id="@+id/widget_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Holita" />
 
 </LinearLayout>
