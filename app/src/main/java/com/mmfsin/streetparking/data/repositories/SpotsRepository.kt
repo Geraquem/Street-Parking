@@ -22,20 +22,24 @@ class SpotsRepository @Inject constructor(
 ) : ISpotsRepository {
 
     override suspend fun createSpot(coordinates: LatLng): Result<Unit> {
-        return try {
-            val id = UUID.randomUUID().toString()
-            val spot = coordinates.createSpotByCoordinates(id)
 
-            FirebaseFirestore.getInstance()
-                .collection(SPOTS)
-                .document(id)
-                .set(spot)
-                .await()
-            Result.success(Unit)
+        insertDataInFirestore()
+        return Result.success(Unit)
 
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+//        return try {
+//            val id = UUID.randomUUID().toString()
+//            val spot = coordinates.createSpotByCoordinates(id)
+//
+//            FirebaseFirestore.getInstance()
+//                .collection(SPOTS)
+//                .document(id)
+//                .set(spot)
+//                .await()
+//            Result.success(Unit)
+//
+//        } catch (e: Exception) {
+//            Result.failure(e)
+//        }
     }
 
 
@@ -78,18 +82,38 @@ class SpotsRepository @Inject constructor(
         return matching.distinctBy { it.id }.toSpotList()
     }
 
+    /*************************************************************************************/
+    /*************************************************************************************/
+    /*************************************************************************************/
 
-    //    override fun getSpotsAroundMe(): List<Spot> {
-    //        val result = mutableListOf<SpotDTO>()
-    //        val db = FirebaseFirestore.getInstance()
-    //        db.collection(SPOTS).get().addOnSuccessListener { documents ->
-    //            for (doc in documents) {
-    //                val eventEntity = doc.toObject(EventDTO::class.java)
-    //                result.add(eventEntity.toEvent())
-    //            }
-    //            cont.resume(result)
-    //        }.addOnFailureListener {
-    //            cont.resume(null)
-    //        }
-    //    }
+    suspend fun insertDataInFirestore() {
+        val db = FirebaseFirestore.getInstance()
+        val batch = db.batch()
+
+        val listToInsert = listToInsert()
+        val usersCollection = db.collection(SPOTS)
+
+        for (data in listToInsert) {
+            val id = data.id
+            val newDocRef = usersCollection.document(id)
+            batch.set(newDocRef, data)
+        }
+
+        batch.commit().await()
+    }
+
+
+    private fun listToInsert(): List<SpotDTO> {
+        return listOf(
+            LatLng(40.396113, -3.710846).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.392822, -3.713133).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.388555, -3.707909).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.392065, -3.729403).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.398640, -3.706744).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.395235, -3.700088).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.391621, -3.703426).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.393242, -3.707626).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.400073, -3.710833).createSpotByCoordinates(UUID.randomUUID().toString()),
+        )
+    }
 }

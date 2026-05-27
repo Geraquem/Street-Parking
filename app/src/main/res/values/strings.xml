@@ -20,7 +20,9 @@
     <!-- SPOT DIALOG -->
     <string name="spot_dialog_not_address">No ha sido posible conseguir la dirección</string>
     <string name="spot_dialog_remember">Recuerda que la ubicación es aproximada</string>
+    <string name="spot_dialog_created">Se a creó a las</string>
     <string name="spot_dialog_reclaimed">Veces reclamado:</string>
+    <string name="spot_dialog_reclaim">Reclamar</string>
     <string name="spot_dialog_how_to_go">Cómo llegar</string>
     <string name="spot_dialog_close">Cerrar</string>
 

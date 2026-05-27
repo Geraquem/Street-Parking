@@ -3,6 +3,8 @@
 package com.mmfsin.streetparking.presentation.map
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -64,6 +66,7 @@ import com.mmfsin.streetparking.presentation.map.helper.dialogEnableGps
 import com.mmfsin.streetparking.presentation.map.helper.getUserLocation
 import com.mmfsin.streetparking.presentation.map.helper.isGPSActive
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 @Preview
 @Composable
@@ -189,7 +192,14 @@ fun MapContent(
                                 scope.launch { scaffoldState.bottomSheetState.hide() }
                                 //                                updateSelectedSpot(null)
                             },
-                            {}
+                            reclaim = {},
+                            howToGo = { lat, lng ->
+                                val gmmIntentUri = "google.navigation:q=$lat,$lng&mode=d".toUri()
+                                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                                mapIntent.setPackage("com.google.android.apps.maps")
+
+                                context.startActivity(mapIntent)
+                            }
                         )
                     } else {
                         Box(modifier = Modifier.fillMaxWidth().height(1.dp))

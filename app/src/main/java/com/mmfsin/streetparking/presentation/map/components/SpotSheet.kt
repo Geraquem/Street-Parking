@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -42,6 +43,7 @@ import com.mmfsin.streetparking.presentation.core.components.MediumText
 import com.mmfsin.streetparking.presentation.core.components.SmallText
 import com.mmfsin.streetparking.presentation.core.theme.BlueMedium
 import com.mmfsin.streetparking.presentation.core.theme.GrayHard
+import com.mmfsin.streetparking.presentation.core.theme.OrangeHard
 import com.mmfsin.streetparking.presentation.core.theme.White
 import com.mmfsin.streetparking.presentation.utils.formatDate
 import com.mmfsin.streetparking.presentation.utils.getAddress
@@ -57,7 +59,7 @@ fun SpotSheetPV() {
             date = 1739728440000,
             reclaimed = 27
         ),
-        {}, {}
+        {}, {}, { _, _ -> }
     )
 }
 
@@ -65,7 +67,8 @@ fun SpotSheetPV() {
 fun SpotSheet(
     spot: Spot,
     onDismiss: () -> Unit,
-    howToGo: () -> Unit
+    reclaim: (String) -> Unit,
+    howToGo: (Double, Double) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -115,17 +118,25 @@ fun SpotSheet(
 
         Spacer(Modifier.height(8.dp))
 
-        Text(spot.date.formatDate())
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            MediumText(R.string.spot_dialog_created)
+            Spacer(Modifier.width(4.dp))
+            Text(
+                text = spot.date.formatDate(),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
 
         Spacer(Modifier.height(4.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            SmallText(R.string.spot_dialog_reclaimed)
+            MediumText(R.string.spot_dialog_reclaimed)
             Spacer(Modifier.width(4.dp))
             Text(
-                text = spot.reclaimed.toString(), style = MaterialTheme.typography.bodyLarge,
+                text = spot.reclaimed.toString(),
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 14.sp
             )
         }
 
@@ -145,30 +156,59 @@ fun SpotSheet(
 
         Spacer(Modifier.height(16.dp))
 
-        Button(
-            onClick = {},
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = BlueMedium),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(painter = painterResource(R.drawable.ic_location_arrow), null)
-
-                Spacer(Modifier.width(8.dp))
-
-                MediumText(
-                    text = R.string.spot_dialog_how_to_go,
-                    color = White,
-                    modifier = Modifier.padding(vertical = 6.dp)
-                )
-            }
-        }
+        Buttons(
+            reclaim = { reclaim(spot.id) },
+            howToGo = { howToGo(spot.lat, spot.lng) }
+        )
 
         Spacer(Modifier.height(6.dp))
 
         TextButton(onClick = { onDismiss() }, modifier = Modifier.fillMaxWidth()) {
             MediumText(R.string.spot_dialog_close, gravity = TextAlign.Center)
+        }
+    }
+}
+
+@Composable
+fun Buttons(reclaim: () -> Unit, howToGo: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        SpotButton(
+            text = R.string.spot_dialog_reclaim,
+            icon = R.drawable.ic_map_spot,
+            color = OrangeHard,
+            onClick = { reclaim() }
+        )
+
+        SpotButton(
+            text = R.string.spot_dialog_how_to_go,
+            icon = R.drawable.ic_location_arrow,
+            color = BlueMedium,
+            onClick = { howToGo() }
+        )
+    }
+}
+
+@Composable
+fun SpotButton(text: Int, icon: Int, color: Color, onClick: () -> Unit) {
+    Button(
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(containerColor = color),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(painter = painterResource(icon), null)
+
+            Spacer(Modifier.width(8.dp))
+
+            MediumText(
+                text = text,
+                color = White,
+                modifier = Modifier.padding(vertical = 6.dp)
+            )
         }
     }
 }

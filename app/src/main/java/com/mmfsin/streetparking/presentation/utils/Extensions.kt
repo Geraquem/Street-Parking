@@ -21,7 +21,7 @@ fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2
 }
 
 fun Long.formatDate(): String {
-    val formatter = DateTimeFormatter.ofPattern("HH:mm dd MMM yyyy")
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
         .withZone(ZoneId.systemDefault())
 
     return formatter.format(Instant.ofEpochMilli(this))
