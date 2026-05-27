@@ -20,6 +20,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCbgYcKvioNO_zVED0YoLScRCg_l0rLLw" />
 
+        <receiver android:name=".presentation.widget.WidgetBroadcast" />
+
+        <receiver
+            android:name=".presentation.widget.WidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"

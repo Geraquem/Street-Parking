@@ -92,6 +92,9 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
 
+    /** Worker Manager */
+    implementation(libs.androidx.work.runtime.ktx)
+
     /** Testing */
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
