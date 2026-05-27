@@ -19,7 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,7 +57,7 @@ fun SpotSheetPV() {
             date = 1739728440000,
             reclaimed = 27
         ),
-        {}, {}, { _, _ -> }
+        {}, { _, _, _ -> }, { _, _ -> }
     )
 }
 
@@ -67,7 +65,7 @@ fun SpotSheetPV() {
 fun SpotSheet(
     spot: Spot,
     onDismiss: () -> Unit,
-    reclaim: (String) -> Unit,
+    reclaim: (String, Double, Double) -> Unit,
     howToGo: (Double, Double) -> Unit
 ) {
 
@@ -157,15 +155,15 @@ fun SpotSheet(
         Spacer(Modifier.height(16.dp))
 
         Buttons(
-            reclaim = { reclaim(spot.id) },
+            reclaim = { reclaim(spot.id, spot.lat, spot.lng) },
             howToGo = { howToGo(spot.lat, spot.lng) }
         )
 
         Spacer(Modifier.height(24.dp))
 
-//        TextButton(onClick = { onDismiss() }, modifier = Modifier.fillMaxWidth()) {
-//            MediumText(R.string.spot_dialog_close, gravity = TextAlign.Center)
-//        }
+        //        TextButton(onClick = { onDismiss() }, modifier = Modifier.fillMaxWidth()) {
+        //            MediumText(R.string.spot_dialog_close, gravity = TextAlign.Center)
+        //        }
     }
 }
 

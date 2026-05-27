@@ -93,6 +93,10 @@ class SpotsRepository @Inject constructor(
             .await()
     }
 
+    override suspend fun deleteSpot(id: String) {
+        FirebaseFirestore.getInstance().collection(SPOTS).document(id).delete()
+    }
+
     /*************************************************************************************/
     /*************************************************************************************/
     /*************************************************************************************/
@@ -125,6 +129,8 @@ class SpotsRepository @Inject constructor(
             LatLng(40.391621, -3.703426).createSpotByCoordinates(UUID.randomUUID().toString()),
             LatLng(40.393242, -3.707626).createSpotByCoordinates(UUID.randomUUID().toString()),
             LatLng(40.400073, -3.710833).createSpotByCoordinates(UUID.randomUUID().toString()),
+            LatLng(40.394183, -3.706777).createSpotByCoordinates(UUID.randomUUID().toString()),
+//            LatLng(aaaaaaaaaa).createSpotByCoordinates(UUID.randomUUID().toString()),
         )
     }
 }

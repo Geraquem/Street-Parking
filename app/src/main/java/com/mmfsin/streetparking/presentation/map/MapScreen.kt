@@ -76,7 +76,7 @@ fun MapScreenPV() {
             showRadiusDialog = true,
         ),
         {}, {}, {}, {},
-        {}, {}, {}, {},
+        {}, {}, {}, { _, _, _ -> },
     )
 }
 
@@ -92,7 +92,7 @@ fun MapScreen(viewModel: MapViewModel = hiltViewModel()) {
         updateRadius = { newRadius -> viewModel.updateRadius(newRadius) },
         getSpots = { userLocation -> viewModel.getSpotsInRadius(userLocation) },
         updateSelectedSpot = { spot -> viewModel.updateSelectedSpot(spot) },
-        reclaimSpot = { id -> viewModel.reclaimSpot(id) },
+        reclaimSpot = { id, spotLocation, userLocation -> viewModel.reclaimSpot(id, spotLocation, userLocation) },
     )
 }
 
@@ -106,7 +106,7 @@ fun MapContent(
     updateRadius: (Double) -> Unit,
     getSpots: (LatLng) -> Unit,
     updateSelectedSpot: (Spot?) -> Unit,
-    reclaimSpot: (String) -> Unit,
+    reclaimSpot: (String, LatLng, LatLng) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -156,6 +156,7 @@ fun MapContent(
 
     if (uiState.userLocation == null) LoadingFullScreen()
     uiState.userLocation?.let { location ->
+
         LaunchedEffect(location) { getSpots(location) }
 
         val sheetState = rememberStandardBottomSheetState(
@@ -188,11 +189,11 @@ fun MapContent(
                     if (uiState.selectedSpot != null) {
                         SpotSheet(
                             spot = uiState.selectedSpot,
-                            {
+                            onDismiss = {
                                 scope.launch { scaffoldState.bottomSheetState.hide() }
                                 //                                updateSelectedSpot(null)
                             },
-                            reclaim = { id -> reclaimSpot(id) },
+                            reclaim = { id, lat, lng -> reclaimSpot(id, LatLng(lat, lng), location) },
                             howToGo = { lat, lng -> context.howToGo(lat, lng) }
                         )
                     } else {

@@ -7,4 +7,5 @@ interface ISpotsRepository {
     suspend fun createSpot(coordinates: LatLng): Result<Unit>
     suspend fun getSpotsAroundMe(userLocation: LatLng): List<Spot>
     suspend fun reclaimSpot(id: String)
+    suspend fun deleteSpot(id: String)
 }

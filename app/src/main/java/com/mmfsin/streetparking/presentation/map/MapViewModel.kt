@@ -63,12 +63,12 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun getSpotsInRadius(userLocation: LatLng){
+    fun getSpotsInRadius(userLocation: LatLng) {
         viewModelScope.launch {
             combine(
                 getSpotsUseCase(userLocation),
                 radiusFlow,
-            ) { spots, radius->
+            ) { spots, radius ->
                 filterSpotsByRadius(
                     spots = spots,
                     userLocation = userLocation,
@@ -118,9 +118,9 @@ class MapViewModel @Inject constructor(
         _uiState.update { it.copy(selectedSpot = spot) }
     }
 
-    fun reclaimSpot(id: String) {
+    fun reclaimSpot(id: String, spotLocation: LatLng, userLocation: LatLng) {
         executeUseCase(
-            { reclaimSpotUseCase(id) },
+            { reclaimSpotUseCase(id, spotLocation, userLocation) },
             {},
             {}
         )
