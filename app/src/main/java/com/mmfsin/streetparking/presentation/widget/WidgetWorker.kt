@@ -25,7 +25,7 @@ class WidgetWorker(
 
         updateWidgetState(id, if (success) "success" else "error")
 
-        delay(4000)
+        delay(2000)
 
         updateWidgetState(id, "idle")
 
@@ -42,6 +42,10 @@ class WidgetWorker(
 
     private fun updateWidgetState(id: Int, state: String) {
         val views = RemoteViews(applicationContext.packageName, R.layout.widget_layout)
+
+        println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+        println("state: $state")
+        println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
 
         when (state) {
             "idle" -> views.setImageViewResource(R.id.widget_button, R.drawable.ic_map_spot)
