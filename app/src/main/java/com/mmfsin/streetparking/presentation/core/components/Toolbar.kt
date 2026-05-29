@@ -29,7 +29,6 @@ fun ToolbarPV() {
     Toolbar(
         text = R.string.app_name,
         onBackClick = {},
-        rightIcon = R.drawable.ic_arrow_back,
         iconBackVisible = true,
         onRightIconClick = {}
     )
@@ -40,7 +39,6 @@ fun Toolbar(
     text: Int = R.string.empty,
     iconBackVisible: Boolean = true,
     onBackClick: () -> Unit = {},
-    rightIcon: Int? = null,
     onRightIconClick: () -> Unit = {},
 ) {
     TopAppBar(
@@ -60,14 +58,12 @@ fun Toolbar(
                     modifier = Modifier.weight(1f).padding(start = if (iconBackVisible) 2.dp else 16.dp),
                 )
 
-                if (rightIcon != null) {
-                    IconButton(onClick = onRightIconClick, modifier = Modifier.padding(start = 0.dp)) {
-                        Icon(
-                            painter = painterResource(rightIcon),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
+                IconButton(onClick = onRightIconClick, modifier = Modifier.padding(start = 0.dp)) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_drawer_menu),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
                 }
             }
         },
