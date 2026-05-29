@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
@@ -135,7 +136,8 @@ fun DrawerContentPV() {
 @Composable
 fun DrawerContent(items: List<DrawerData>, selectedIndex: Int, onDestinationClick: (Int, String) -> Unit) {
     ModalDrawerSheet(
-        drawerShape = RoundedCornerShape(topEnd = 50.dp),
+        modifier = Modifier.fillMaxWidth(0.8f),
+        drawerShape = RoundedCornerShape(0.dp),
     ) {
         DrawerHeader()
         Spacer(Modifier.height(64.dp))
