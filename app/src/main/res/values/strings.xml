@@ -5,9 +5,10 @@
     <!-- CONTENT DESCRIPTIONS -->
     <string name="cd_arrow_back">Atrás</string>
 
-    <!-- BOTTOM NAV -->
-    <string name="bottom_nav_leave_spot">Dejo sitio</string>
-    <string name="bottom_nav_search_spot">Busco sitio</string>
+    <!-- NAV DRAWER -->
+    <string name="nav_drawer_leave_spot">Dejo sitio</string>
+    <string name="nav_drawer_search_spot">Busco sitio</string>
+    <string name="nav_drawer_where_parked">¿Dónde aparqué?</string>
 
     <!-- PERMISSIONS ERROR -->
     <string name="permission_error_description">Para poder abrir el mapa necesitas tener activado el permiso de ubicación.</string>

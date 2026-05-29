@@ -10,9 +10,6 @@ const val SP_RADIUS = "shared_prefs_radius"
 const val SP_LAST_SCREEN = "shared_prefs_last_screen"
 
 /** NAVIGATION_DRAWER */
-const val LEAVE_SPOT_SCREEN = "leave_spot_screen"
-const val MAPS_SCREEN = "maps_screen"
-const val WHERE_PARKED_SCREEN = "where_parked_screen"
 const val LOADING_SCREEN = "loading_screen"
 
 /** FIREBASE */

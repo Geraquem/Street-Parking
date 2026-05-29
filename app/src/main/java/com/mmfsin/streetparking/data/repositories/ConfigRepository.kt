@@ -2,7 +2,7 @@ package com.mmfsin.streetparking.data.repositories
 
 import com.mmfsin.streetparking.data.bbdd.SharedPrefs
 import com.mmfsin.streetparking.domain.interfaces.IConfigRepository
-import com.mmfsin.streetparking.presentation.utils.LEAVE_SPOT_SCREEN
+import com.mmfsin.streetparking.presentation.utils.LOADING_SCREEN
 import javax.inject.Inject
 
 class ConfigRepository @Inject constructor(
@@ -15,7 +15,7 @@ class ConfigRepository @Inject constructor(
         sharedPrefs.updateRadius(newRadius.toString())
     }
 
-    override fun getLastScreen(): String = sharedPrefs.getLastScreen() ?: LEAVE_SPOT_SCREEN
+    override fun getLastScreen(): String = sharedPrefs.getLastScreen() ?: LOADING_SCREEN
 
     override fun updateLastScreen(lastScreen: String) {
         sharedPrefs.updateLastScreen(lastScreen)

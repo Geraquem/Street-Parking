@@ -1,5 +1,6 @@
 package com.mmfsin.streetparking.presentation.main
 
+import com.mmfsin.streetparking.domain.models.DrawerDirection.Companion.getDrawerIndex
 import com.mmfsin.streetparking.domain.usecases.GetLastScreenUseCase
 import com.mmfsin.streetparking.domain.usecases.UpdateLastScreenUseCase
 import com.mmfsin.streetparking.presentation.core.base.BaseViewModel
@@ -24,7 +25,14 @@ class MainViewModel @Inject constructor(
     fun getLastScreen() {
         executeUseCase(
             { getLastScreenUseCase() },
-            { screen -> _uiState.update { it.copy(lastScreen = screen) } },
+            { screen ->
+                _uiState.update {
+                    it.copy(
+                        lastScreen = screen,
+                        lastScreenIndex = getDrawerIndex(screen)
+                    )
+                }
+            },
             {}
         )
     }
@@ -36,4 +44,9 @@ class MainViewModel @Inject constructor(
             {}
         )
     }
+
+    fun updateLastScreenIndex(index: Int) {
+        _uiState.update { it.copy(lastScreenIndex = index) }
+    }
+
 }
